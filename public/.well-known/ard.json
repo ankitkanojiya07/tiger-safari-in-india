@@ -1,0 +1,73 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Tiger Safaris in India",
+    "documentationUrl": "https://tigersafarisinindia.com/llms.txt",
+    "logoUrl": "https://tigersafarisinindia.com/logo.svg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:tigersafarisinindia.com:doc:llms",
+      "displayName": "Site guide for AI agents (llms.txt)",
+      "type": "application/llms-txt+markdown",
+      "url": "https://tigersafarisinindia.com/llms.txt",
+      "description": "Machine-readable summary of Tiger Safaris in India with links to destinations, journeys, guides and contact.",
+      "tags": ["travel", "wildlife", "tiger-safari", "india"],
+      "capabilities": ["SiteOverview", "DestinationIndex", "BookingGuidance"],
+      "representativeQueries": [
+        "plan a private tiger safari in India",
+        "which national parks are best for tiger sightings",
+        "book Ranthambore or Jim Corbett safari",
+        "best time to visit Indian tiger reserves"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:tigersafarisinindia.com:page:plan-safari",
+      "displayName": "Plan My Safari enquiry",
+      "type": "application/web-page",
+      "url": "https://tigersafarisinindia.com/plan-your-safari/",
+      "description": "Enquiry form for custom private tiger safari itineraries across Ranthambore, Jim Corbett, Panna, Satpura and Sariska.",
+      "tags": ["booking", "enquiry", "itinerary"],
+      "capabilities": ["SafariEnquiry"],
+      "representativeQueries": [
+        "how do I enquire about a tiger safari",
+        "request a custom safari itinerary for India",
+        "plan a multi-park tiger trip"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:tigersafarisinindia.com:page:destinations",
+      "displayName": "Tiger safari destinations",
+      "type": "application/web-page",
+      "url": "https://tigersafarisinindia.com/destinations/",
+      "description": "Overview of five focus parks for private tiger safaris in India.",
+      "tags": ["destinations", "national-parks"],
+      "capabilities": ["ParkDirectory"],
+      "representativeQueries": [
+        "tiger safari destinations in India",
+        "compare Ranthambore Jim Corbett Panna Satpura Sariska"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    },
+    {
+      "identifier": "urn:air:tigersafarisinindia.com:feed:sitemap",
+      "displayName": "XML sitemap",
+      "type": "application/xml",
+      "url": "https://tigersafarisinindia.com/sitemap.xml",
+      "description": "Complete list of public page URLs for crawling and indexing.",
+      "tags": ["sitemap", "crawl"],
+      "capabilities": ["UrlIndex"],
+      "representativeQueries": [
+        "list all pages on Tiger Safaris in India",
+        "sitemap for tigersafarisinindia.com"
+      ],
+      "version": "1.0.0",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://tigersafarisinindia.com/ranthambore/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/media/sketches/sketch-ranthambore.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://tigersafarisinindia.com/jim-corbett/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/media/sketches/sketch-corbett.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://tigersafarisinindia.com/panna/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/media/sketches/sketch-panna.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://tigersafarisinindia.com/satpura/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/media/sketches/sketch-satpura.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://tigersafarisinindia.com/sariska/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/media/sketches/sketch-sariska.jpg</image:loc></image:image>
+  </url>
+</urlset>

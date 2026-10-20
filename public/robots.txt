@@ -1,0 +1,36 @@
+# Tiger Safaris in India — https://tigersafarisinindia.com
+
+User-agent: *
+Allow: /
+Disallow: /thank-you/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /search/
+
+# AI / assistant crawlers (retrieval and search). Remove a block to opt out.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://tigersafarisinindia.com/sitemap.xml
+Sitemap: https://tigersafarisinindia.com/sitemap-images.xml

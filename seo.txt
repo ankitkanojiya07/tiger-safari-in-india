@@ -1,0 +1,827 @@
+Tiger Safaris in India — SEO Foundation Strategy
+Executive summary
+The site wins search by owning five parks in depth (zones, permits, lodges, timing) rather than chasing broad "India tour" terms. The foundation has three non-negotiables:
+1. Every page must ship as static HTML.
+2. A Stays and Safari Booking layer must be added under each park.
+3. The URL structure must be locked before Google indexes the current one.
+Decisions locked for this plan
+Decision	Choice	SEO consequence
+Booking model	Enquiry-led (form + WhatsApp → quote)	Schema uses TouristTrip / TravelAgency, no live Offer prices. Conversion pages are "Book Ranthambore safari" style landing pages that hand off to an enquiry.
+Hotel side	Large inventory, OTA-style	Biggest risk in the plan. Hotel pages need an indexation gate (section 9) or they become thin duplicates of Booking.com / MakeMyTrip listings.
+Domains	Single domain, no EMDs	All authority consolidates on tigersafarisinindia.com. Park-specific tools replace microsites (section 18).
+Markets	Indian + international travellers	Two intent sets: domestic ("Corbett safari booking", Hindi-English queries, weekend trips from Delhi) and international ("best tiger safari India", tours, luxury lodges). One English site, en-IN primary.
+Top 5 P0 actions (first 2 weeks)
+1. Prerender every route. Use vite-react-ssg, or migrate to Astro or Next.js. Today a crawler sees only the title and one hero line (section 2).
+2. 301 redirect www → non-www. Enforce a single trailing-slash rule.
+3. Lock the final URL map (section 17). Add /stays/ and /safari-booking/ under each park before launch indexing.
+4. Build the five park hubs to full depth first, then layer in hotels and blog content.
+5. Verify the domain in Google Search Console and Bing Webmaster Tools, submit the sitemaps, and ship baseline schema (Organization, WebSite, BreadcrumbList).
+1. Strategic positioning — why this works
+No one owns the planning layer for Indian tiger safaris. That layer joins permits, zones, lodges and transfers into one decision, and it is the gap this site fills. Each of today's players covers only one piece:
+* Government forest portals sell permits.
+* OTAs sell rooms.
+* Local agents run thin single-park sites.
+Why this works
+* Narrow scope builds authority faster. Five parks is a small enough topic to cover exhaustively. Google rewards sites that answer every question in a niche over sites that skim many.
+* High-consideration purchase = many searches before booking. A tiger safari trip involves:
+    * choosing a park and a season
+    * choosing a zone and a vehicle
+    * choosing a lodge and transfers
+* Each of those is a separate search. That is a long trail of informational queries you can own before the enquiry.
+* Specifics beat generic tour copy. These are questions OTAs and portals don't answer. Each answer is a ranking asset:
+    * Which zone has the best sighting record?
+    * How far is the lodge from the gate?
+    * Jeep or canter for a family of five?
+* AI answer engines quote structured facts. ChatGPT, Perplexity and Google AI Overviews cite pages with clear tables (zone, gate, distance, fees, season) and explicit FAQs. Building that way earns both classic rankings and AI citations.
+* Hotels are the revenue multiplier, not the SEO lead. Rank on park and safari intent first. Then route that traffic into stays via internal links, rather than fighting OTAs head-on for "hotels in Sawai Madhopur".
+1.1 The funnel model
+[embed: node/3b6b64ab-ece2]
+Each stage maps to a page type and a search intent. Internal links always push one step to the right, and every page carries an enquiry entry point.
+KPI per stage
+* Discover: impressions, Discover clicks, new users
+* Plan: engaged sessions, hub → safari/stays click-through
+* Safari and Stay: enquiry-form starts, WhatsApp taps
+* Book: submitted enquiries, quote-to-booking rate (tracked in your CRM)
+2. Current site direction — what to change
+The live site has the right skeleton but none of the money pages. Each URL ships a unique title, meta description, canonical and H1. The body copy, however, loads in the browser, and there is no hotel layer or safari-booking layer. Findings below come from fetching the live site on 17 Oct 2026; re-check each with the tools in section 8 after fixes.
+#	Finding	Evidence	Fix	Priority
+1	Body content is client-rendered	A crawler fetch of the home, Ranthambore and Zones-guide pages returns only head tags, the H1 and one intro line. No zone table, itinerary or FAQ text reaches the HTML.	Static-generate every route at build time (vite-react-ssg, or move to Astro / Next.js SSG). Acceptance test: curl any URL and see the full article text.	P0
+2	Canonical and redirect disagree	Canonical tags point to https://tigersafarisinindia.com/…/ (non-www, trailing slash). Fetches resolved to https://www.tigersafarisinindia.com/… (www, no slash).	Pick one host and one slash rule. Recommended: non-www, trailing slash, everywhere. Use a single 301 hop from every variant. Verify with httpstatus.io.	P0
+3	No Stays / hotel layer	The sitemap has 30 URLs; zero are hotel or lodge pages despite a large planned inventory.	Add a Stays hub per park plus hotel pages, with the indexation gate described in section 9.	P0
+4	No safari-booking landing pages	"Ranthambore safari booking" intent is folded into the destination page.	A dedicated /[park]/safari-booking/ page per park, with an enquiry form.	P0
+5	Park guides live under /stories/	Zones guides, best-time and how-to-book articles sit in a blog folder, away from their park hub.	Move evergreen park guides under the park (/ranthambore/zones/). Keep /journal/ for editorial / Discover content (section 17).	P1
+6	One OG image sitewide	Every page uses /images/og/default.jpg.	A unique 1200×630 OG image per page (park, lodge, article). Discover and social previews both use it.	P1
+7	og:type = website on articles	Zones guide declares website.	og:type=article plus article:published_time / modified_time on guides and journal posts.	P2
+8	No visible author or dates on guides	The Zones guide shows no byline or updated date.	Named author + "Updated" date + reviewer line on every guide (section 5).	P1
+9	Non-standard agent files	robots.txt references /.well-known/ard.json and /ai-catalog.json. These are not recognised standards.	Keep them if harmless. Rely on sitemap.xml + llms.txt (section 20), which crawlers and AI tools actually read.	P2
+10	Good: Discover-ready robots meta	max-image-preview:large is already set sitewide. AI crawlers are allowed.	Keep.	—
+Direction changes
+* From "inspiration site" to "decision site." Every park page must answer, in visible HTML tables:
+    * zones
+    * gates
+    * safari timings
+    * vehicle types
+    * season / closure months
+    * how far each stay is from the gate
+* From destinations-first to park-entity-first URLs. Short /ranthambore/ hubs with children beat /destinations/ranthambore-tiger-safari/. "Tiger safari" is already in the domain, so repeating it in every slug adds length, not relevance.
+* Lock structure now. The site is two days old, so URL changes cost almost nothing today. After indexing, every change needs redirects and costs ranking time.
+* Spelling variants. Use the dominant spelling in URLs (Ranthambore, Jim Corbett). Mention variants once in the body copy ("also spelled Ranthambhore"). The live page already does this.
+3. Site architecture — pillars & hubs
+The architecture has six pillars. Parks is the lead pillar: each of the five park hubs owns its booking, hotels and planning pages, so all park authority flows into one URL tree. Keep every money page within three clicks of the home page.
+[embed: node/37750f1d-1f34]
+The park hub is the template that repeats five times. The other pillars cut across parks and link back into the hubs.
+Pillar	URL root	Role in funnel	Examples	Index?
+Parks	/ranthambore/, /jim-corbett/, /panna/, /satpura/, /sariska/ + /tiger-reserves/ index	Plan → Safari → Stay	Hub, safari booking, zones, hotels, best time, how to reach, safari cost, tour packages	Yes
+Safaris	/safaris/	Safari	Jeep safari, canter safari, walking (Satpura), boat (Satpura, Panna), photography, family	Yes
+Hotels	/hotels/	Stay	All-park index, luxury jungle lodges, budget stays, cross-park lists. Individual hotels live under their park.	Lists yes; filters no
+Tours	/tours/	Plan → Book	Multi-park tours: Rajasthan tiger trail, central India circuit, Golden Triangle + tigers, Corbett weekend from Delhi	Yes
+Guides	/guides/	Discover → Plan	Best time for tiger safari in India, which park is best, how to book, packing list, Ranthambore vs Corbett	Yes
+Journal	/journal/	Discover	Sighting reports, tiger profiles, seasonal updates, conservation, photo stories (Discover feed)	Yes
+Trust	/about/, /naturalists/[name]/, /reviews/, /impact/, /faq/, /contact/	All stages	Author pages feed E-E-A-T (section 5)	Yes
+Conversion	/plan-your-safari/ + /thank-you/	Book	Enquiry form, WhatsApp click-to-chat	Form yes; thank-you no
+Rename recommendation: use /tours/ instead of /journeys/. "Journeys" is Wilderness brand language with very little search demand. Travellers search "tiger safari tour package". Keep the word "Journeys" as a nav label if you like the tone.
+Park hub page — required blocks (in this order)
+1. H1 with the park name + "Tiger Safari" and a one-paragraph answer: what the park is, its tiger odds, and the best months.
+2. Quick-facts table: state, area, nearest airport / rail, zones count, safari timings, closure months, vehicle types.
+3. Zones summary → link to /zones/.
+4. Safari booking CTA block → /safari-booking/.
+5. Where to stay: 6–8 featured hotels by distance to gate → /hotels/.
+6. Best time + how to reach summaries → child pages.
+7. Sample itineraries → /tour-packages/ and multi-park /tours/.
+8. FAQ (6–10 real questions).
+9. Author + updated date + enquiry form.
+4. Keyword strategy — principles
+Keywords follow the formula park × intent modifier. Each URL gets one primary keyword, and priority is set by intent and business value before volume. The master sheet (sections 11–15) uses the columns: Keyword → Search Intent → Content Pillar → Priority → Proposed URL → Content Required → Status.
+Rules
+1. One primary keyword per URL. Two pages chasing "Ranthambore safari booking" split ranking signals (cannibalisation). Secondary variants go on the same page as H2s and in FAQs.
+2. Intent decides the page type, not the keyword's wording.
+    * Informational ("best time to visit Corbett") → guide.
+    * Commercial investigation ("best hotels near Ranthambore") → curated list.
+    * Transactional ("Ranthambore safari booking") → booking landing page with an enquiry form.
+    * Before assigning a page type, check what Google already ranks for the query and match that format.
+3. Priority bands:
+    * P0 = transactional, park-level money terms (safari booking, hotels/resorts, tour packages). Build these first.
+    * P1 = planning terms that feed P0 (zones, best time, cost, how to reach, comparisons).
+    * P2 = long-tail, editorial and Discover content (tiger profiles, sightings, packing lists).
+4. The modifier matrix generates the sheet. Apply each modifier to each of the five parks: safari booking · online booking · zones · timings · safari price / cost / fees · best time · hotels · resorts · near [gate] · luxury · budget · tour package · from Delhi / Jaipur / Mumbai · 2-day / 3-day itinerary · jeep vs canter.
+5. Two audiences, two vocabularies.
+    * Domestic queries are park + logistics heavy ("Corbett weekend package from Delhi", "Ranthambore canter booking").
+    * International queries are country-level and experience-led ("best tiger safari in India", "India tiger tour 10 days", "luxury tiger lodges India").
+    * Guides and tours carry the international terms; park hubs carry the domestic ones.
+6. Don't target "official booking" navigational queries. People searching "Ranthambore official safari booking site" want the government portal.
+    * Ranking a private site for those queries draws pogo-sticking and complaints, and it risks looking like impersonation.
+    * Instead, target "how to book Ranthambore safari" with an honest guide. Name the official portal, then explain what you add: zone strategy, lodge, transfers, naturalist.
+7. Spelling and transliteration variants (Ranthambhore, Jim Corbet, Hinglish queries) are handled on-page, not as separate URLs. Hindi-language pages are a P2 test after the English site ranks.
+8. Plan around the season. Core zones close in the monsoon and reopen in October (verify exact dates per park and zone each year).
+    * Refresh park, best-time and booking pages in August–September, before demand returns.
+    * Change the "Updated" date only when the content genuinely changes.
+9. Volumes are added, not assumed. The sheet in this doc is prioritised by intent and business value only — it contains no search volumes. Before final prioritisation, add Volume and Difficulty columns from Google Keyword Planner and Ahrefs or Semrush. After launch, re-rank using real Search Console impressions.
+5. Content standards & E-E-A-T
+The site ranks on first-hand field knowledge. Every guide carries:
+* a named naturalist as author
+* original photos
+* dated facts that link to the official source
+Trust is the signal that matters most for a site taking travel money. Show it on every page.
+E-E-A-T, made concrete for this site
+Signal	What it means here	How to show it
+Experience	You have actually done these safaris	Trip reports with date, zone, gate and what was seen; original photos (keep EXIF and the originals); "Field notes" boxes on park pages
+Expertise	Your people know the parks	/naturalists/[name]/ author pages: bio, parks covered, years guiding, photo portfolio, sameAs links (Instagram, LinkedIn); author + reviewer byline on every guide
+Authoritativeness	Others vouch for you	Lodge partnerships, conservation NGO mentions, press coverage, photographer features (section 19)
+Trust	Safe to hand over a trip budget	Legal entity name, address, phone and WhatsApp on every page; clear "what's included" + cancellation policy; real guest reviews linked to Google Business Profile; a plain statement that you are a private operator, not the forest department; HTTPS; privacy policy
+Google systems to build for
+* Core ranking (helpfulness). People-first content written for the traveller is now judged inside Google's core ranking systems. A page that only restates what every OTA says will not hold rankings.
+* Spam policies.
+    * Scaled content abuse is the big risk for a large hotel inventory: hundreds of near-identical, auto-written hotel pages can demote the whole site.
+    * Rule: AI may draft, but a human verifies every fact and adds the site-specific data before a page goes live.
+* Reviews system. "Best hotels near Ranthambore" and comparison pages are judged as reviews. Show:
+    * first-hand evidence (you stayed, inspected or sent guests)
+    * pros and cons
+    * how you chose
+* Discover. Two requirements apply: the page must be indexed, and it must meet Discover's content policies.
+    * No clickbait titles. No withholding the key fact to force a click.
+    * Timely, photo-led stories do best.
+* AI Overviews and answer engines. The answer comes in the first 40–60 words under each H2. Facts go in tables. Every claim is attributed to an official source or to your own data.
+Content standards by page type
+Page type	Must include	Indicative depth*	Refresh
+Park hub	The 9 blocks in section 3, quick-facts table, 6–10 FAQs, author + updated date	1,800–2,500 words	Every season (Aug–Sep) + when rules change
+Safari booking page	How booking works (official portal + what you add), ID and document rules, Indian vs foreign national fee note, zone strategy, vehicle options, enquiry form	1,000–1,500 words	Every season
+Zones guide	One row per zone: gate, terrain, sighting notes, best for. Map.	1,500–2,500 words	Every season
+Hotel page	Unique write-up by your team (no text copied from the hotel), distance to gate (km + minutes), best-for zones, price band (₹ / ₹₹ / ₹₹₹, no live prices), facilities, own or licensed photos, pros/cons, map	300–600 words + data fields	Every 6 months
+Hotel list (best / luxury / budget)	Selection criteria, 8–15 picks with why, comparison table	1,200–2,000 words	Every 6 months
+Guide	Direct answer first, tables, official sources linked, author + reviewer	1,200–2,500 words	Yearly or when facts change
+Journal story	Dated, photo-led (1200 px+ hero), named photographer and naturalist	600–1,200 words	Not refreshed; it is a dated record
+*Word counts are not a ranking factor. They indicate the coverage the brief needs. Cut fluff rather than pad to a number.
+Hard rules
+* Never invent sightings, tiger names, fees or dates.
+* Fees and timings change. State them with "as of [date]" and link the official forest department page.
+* Tiger profiles use the forest department's T-number IDs and show the date of last sighting info. Retire or update profiles when a tiger dies or disperses.
+* Every hotel claim ("300 m from Zone 6 gate") must be verified by your team or the property, and logged in the hotel data sheet with a date.
+6. Internal linking rules
+Every page links in three directions: up to its hub, forward one funnel step, and sideways to related knowledge. No page may be an orphan, and every money page sits within three clicks of the home page.
+A. Hub-and-spoke (authority flows to the park hub)
+* The park hub links to all of its spokes: safari booking, zones, hotels hub, best time, how to reach, safari cost, tour packages.
+* Every spoke links back to the hub within its first 150 words, plus a breadcrumb.
+* The hotels hub links to every indexable hotel page for that park with plain crawlable <a href> links, paginated as /page/2/. Filters may use JavaScript, but the hotel list itself must be in the HTML.
+* /tiger-reserves/ links to all five hubs. The home page links to all five hubs and to the /plan-your-safari/ page.
+B. Connect the user journey (always one step forward)
+From	Must link to	Example anchor
+Guide (best time, which park)	Relevant park hubs	"Ranthambore tiger safari"
+Park hub	Safari booking + hotels hub	"book a Ranthambore safari", "hotels near Ranthambore"
+Zones guide	Safari booking (same park)	"book Zone 3 to 5 safaris"
+Safari booking	Hotels hub + tour packages + enquiry	"stay close to the gate"
+Hotel page	Safari booking (same park), 3 nearby hotels, zones guide, enquiry	"plan safaris from this lodge"
+Hotel list	Each listed hotel + safari booking	hotel names
+Tour (multi-park)	Each park hub on the route + hotels used	park names
+Journal story	Park hub + relevant zone/tiger profile + enquiry	"see tigers in Ranthambore"
+Every page also carries the persistent Plan your safari button (header) and an in-content enquiry block after the main answer.
+C. Connect knowledge clusters (sideways)
+* Comparisons ("Ranthambore vs Corbett") link to both hubs and both safari-booking pages.
+* Safari types link to the parks that offer them: boat → Panna, Satpura; walking → Satpura; canter → Ranthambore, Corbett. Each park hub links back to the safari types available there.
+* Season cluster: the India-wide best-time guide ↔ each park's /best-time/ page ↔ each park's safari booking page.
+* Logistics cluster: the how-to-reach pages link to tours that start in the same city (Delhi → Corbett weekend; Jaipur → Ranthambore / Sariska).
+* Wildlife cluster: tiger profiles and species pages link to their park and zone, and to each other.
+Mechanics
+Rule	Standard
+Anchor text	Descriptive and varied. Use the exact-match keyword once per linking page at most. Never "click here".
+Contextual links	3–10 meaningful links inside body copy per page; navigation and footer links don't count
+Breadcrumbs	On every page except the home page: Home › Ranthambore › Hotels › [Hotel] — with BreadcrumbList schema (section 7)
+Navigation	Top nav: Parks (mega menu with 5 parks) · Safaris · Hotels · Tours · Guides · Journal · Plan your safari
+Footer	5 park hubs, 5 safari-booking pages, 5 hotel hubs, key guides, trust pages
+Related modules	Auto-filled by tags (park, zone, safari type), with the first slot hand-picked by an editor
+Link format	Real <a href> in the rendered HTML; React Router Link is fine. No onClick-only navigation.
+No links to noindex/redirects	Internal links point to final 200 URLs only. Never link to redirects or noindex filter pages.
+Audit	Monthly Screaming Frog crawl: orphans, click depth > 3, broken links, links to redirects
+7. Structured data (schema) plan
+Schema here is for entity clarity (Google, AI answer engines), not for chasing rich results. Ship it as one JSON-LD @graph per page, rendered in the static HTML. Every value in the markup must also be visible on the page.
+Note on FAQs: Google stopped showing FAQ rich results for all sites on 7 May 2026. FAQPage markup is still valid and can stay as a semantic aid, but it will not earn a SERP feature (SEJ, May 2026).
+Page type	Schema types	Key properties	Priority
+Sitewide (in every page's graph)	TravelAgency (Organization), WebSite, BreadcrumbList	name, url, logo, contactPoint (phone, WhatsApp), address, sameAs (Instagram, YouTube, Facebook, Google Business Profile), areaServed: IN	P0
+Park hub	WebPage about TouristDestination (+ Park)	name, alternateName (Ranthambhore), geo, containedInPlace (Rajasthan), touristType, includesAttraction (zones), image	P0
+Safari booking page	Service	serviceType "Tiger safari booking", provider → TravelAgency, areaServed → park, offers only if a fixed fee is shown	P0
+Hotel page	Hotel (LodgingBusiness)	name, address, geo, image, amenityFeature, priceRange (₹–₹₹₹), checkinTime / checkoutTime, containedInPlace → park destination	P0
+Hotel list	ItemList of Hotel (url + position)	itemListElement in display order	P1
+Tour / package	TouristTrip	name, description, itinerary (ItemList of places), touristType, provider; offers with priceCurrency INR only if a real "from" price is published	P1
+Guide, journal story	Article / BlogPosting	headline, author → Person (url to naturalist page), datePublished, dateModified, image in 16:9, 4:3 and 1:1, publisher	P0
+Naturalist page	ProfilePage → Person	name, jobTitle, image, sameAs, knowsAbout (parks), worksFor	P1
+Photo galleries / key images	ImageObject	contentUrl, creator, creditText, copyrightNotice, license, acquireLicensePage. These give your original wildlife photos licensing metadata in Google Images.	P1
+Safari videos	VideoObject	name, thumbnailUrl, uploadDate, duration, contentUrl or embedUrl	P2
+FAQ blocks	FAQPage (semantic only)	Only questions visible on the page	P2
+Do not mark up
+* AggregateRating / Review about your own company: self-serving reviews are ineligible and risk a manual action.
+* Ratings on third-party hotels unless you collect genuine reviews on your site.
+* Prices you don't actually publish.
+* starRating unless it is the hotel's official classification.
+Example — park hub graph (trimmed)
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TravelAgency",
+      "@id": "https://tigersafarisinindia.com/#org",
+      "name": "Tiger Safaris in India",
+      "url": "https://tigersafarisinindia.com/",
+      "logo": "https://tigersafarisinindia.com/images/logo-512.png",
+      "telephone": "+91-XXXXXXXXXX",
+      "areaServed": "IN",
+      "sameAs": ["https://www.instagram.com/…", "https://www.youtube.com/@…"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://tigersafarisinindia.com/ranthambore/#webpage",
+      "url": "https://tigersafarisinindia.com/ranthambore/",
+      "name": "Ranthambore National Park Tiger Safari",
+      "about": { "@id": "https://tigersafarisinindia.com/ranthambore/#destination" },
+      "breadcrumb": { "@id": "https://tigersafarisinindia.com/ranthambore/#breadcrumb" },
+      "dateModified": "2026-10-17",
+      "author": { "@type": "Person", "name": "[Naturalist name]", "url": "https://tigersafarisinindia.com/naturalists/[name]/" }
+    },
+    {
+      "@type": ["TouristDestination", "Park"],
+      "@id": "https://tigersafarisinindia.com/ranthambore/#destination",
+      "name": "Ranthambore National Park",
+      "alternateName": "Ranthambhore",
+      "containedInPlace": { "@type": "State", "name": "Rajasthan" },
+      "touristType": ["Wildlife enthusiasts", "Photographers", "Families"],
+      "image": "https://tigersafarisinindia.com/images/ranthambore/hero-1600.webp"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://tigersafarisinindia.com/ranthambore/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://tigersafarisinindia.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Ranthambore", "item": "https://tigersafarisinindia.com/ranthambore/" }
+      ]
+    }
+  ]
+}
+Implementation:
+1. Build one schema helper per page template in React. It outputs JSON-LD at build time.
+2. Validate each template in Google's Rich Results Test and the Schema.org Markup Validator before launch.
+3. Monitor the Enhancements reports in Search Console.
+8. Tools & websites to use
+A free stack covers about 80% of the work: Search Console, Bing Webmaster, Screaming Frog (500-URL free tier), PageSpeed Insights, Rich Results Test and Keyword Planner. Add one paid suite (Ahrefs or Semrush) once content production starts.
+Category	Tool	Use it for	Cost
+Indexing	Google Search Console	Verify the domain property, submit sitemaps, URL Inspection ("View crawled page" to confirm the HTML contains the body text), indexing and Core Web Vitals reports	Free
+Indexing	Bing Webmaster Tools	Bing index (also used by Microsoft Copilot), import settings from GSC, IndexNow	Free
+Indexing	IndexNow (Bing / Yandex protocol)	Ping new or updated URLs instantly on each deploy (Vercel build hook)	Free
+Performance	PageSpeed Insights	Field data (CrUX) + lab data for LCP, INP, CLS per template	Free
+Performance	Lighthouse (Chrome DevTools), WebPageTest	Debug render-blocking JavaScript, hero video weight, image sizes	Free
+Performance	Vercel Speed Insights	Real-user Web Vitals by route, after each deploy	Free tier
+Keyword research	Google Keyword Planner	India + international volumes, "safari booking" variants	Free (needs an Ads account)
+Keyword research	Google Trends	Seasonality by park, India vs UK/US interest, rising queries	Free
+Keyword research	Ahrefs or Semrush	Volumes, keyword difficulty, competitor gap (OTAs, local agents), SERP analysis	Paid
+Keyword research	AlsoAsked / AnswerThePublic, Google People Also Ask	Question mining for FAQs and guide H2s	Free tiers
+Keyword research	TripAdvisor forums, Reddit (r/india, r/travel, r/wildlifephotography)	Real traveller questions and language	Free
+Technical audit	Screaming Frog SEO Spider	Crawl with JavaScript rendering on and off to compare raw vs rendered HTML; find orphans, redirect chains, missing tags, image alt	Free ≤500 URLs; paid licence
+Technical audit	Ahrefs Webmaster Tools	Free site audit + backlink data for your verified domain	Free
+Technical audit	httpstatus.io	Check www / non-www / slash redirects resolve in one hop	Free
+Technical audit	Chrome "View page source" vs "Inspect"	Quick check that content is in the source HTML	Free
+Structured data	Rich Results Test	Validate each template; preview eligible features	Free
+Structured data	Schema Markup Validator	Validate full schema.org vocabulary (TouristDestination, TouristTrip)	Free
+Structured data	Merkle Schema Markup Generator	Draft JSON-LD quickly	Free
+Images	Squoosh, TinyPNG, sharp (build pipeline)	WebP/AVIF conversion, responsive sizes	Free
+Images	ExifTool	Keep copyright and creator EXIF; strip GPS coordinates from wildlife photos (anti-poaching practice)	Free
+Analytics	GA4 + Microsoft Clarity	Enquiry and WhatsApp events, funnel reports, heatmaps, session replays	Free
+Analytics	Looker Studio	One dashboard: GSC + GA4 + enquiries by park	Free
+Local	Google Business Profile	Brand knowledge panel, reviews, office location	Free
+AI visibility	Monthly manual prompt set in ChatGPT, Perplexity, Gemini, Google AI Mode; Ahrefs Brand Radar or Semrush AI tools if subscribed	Track whether you are cited for "best tiger safari India" and similar	Free / paid
+9. Technical SEO foundation checklist
+Tick every P0 box before the site is promoted. Three items carry most of the risk on this stack (React + Vite on Vercel):
+* static rendering
+* soft-404s from SPA rewrites
+* the hotel indexation gate
+Rendering & crawlability (P0)
+* Every indexable route is static-generated at build time; curl -s URL shows the full H1, body copy, tables, FAQs and internal links
+* Unknown URLs return a real 404 status, not the SPA shell with 200. Vercel catch-all rewrites cause soft-404s, so add a 404 route that returns the 404 status code.
+* Internal links are <a href> in the static HTML
+* robots.txt allows everything public, blocks only /thank-you/, internal search and filter query parameters, and lists every sitemap
+* No important content behind tabs or accordions that load only on click (content in collapsed accordions is fine if it is in the HTML)
+URLs, redirects & canonicals (P0)
+* One host (non-www) and one slash rule (trailing slash) enforced in vercel.json ("trailingSlash": true + host redirect)
+* Every variant (http, www, no-slash, uppercase) 301s to the final URL in one hop
+* Self-referencing absolute canonical on every page, matching the final URL exactly
+* URLs lowercase, hyphenated, no dates in evergreen URLs, max 3 folders deep
+* UTM / tracking parameters canonicalise to the clean URL
+Indexation control (P0)
+* /thank-you/, internal search, filter and sort combinations → noindex, follow, and excluded from sitemaps
+* Paginated hotel lists: each page self-canonical (/page/2/ canonical to itself, not to page 1), crawlable next/previous links
+* Hotel indexation gate. A hotel page is indexable only when ALL of these are true:
+    * 300+ words written by your team
+    * verified distance to the nearest safari gate
+    * best-for zones stated
+    * at least 5 own or licensed photos
+    * price band
+    * map
+    * an updated date in the hotel data sheet
+* Pages that fail the gate stay live for users with noindex, follow and are excluded from the sitemap. Hotels with zero enquiries and zero impressions after 6 months are merged into the park's hotels list.
+* Curated hotel lists ("luxury resorts in Ranthambore", "budget hotels near Corbett") are indexable only when hand-written. Raw filter output never is.
+Core Web Vitals & performance (P0)
+* Targets at the 75th percentile, mobile: LCP < 2.5 s, INP < 200 ms, CLS < 0.1
+* Hero video:
+    * A compressed poster image is the LCP element.
+    * The video loads after first paint, is under ~2 MB on mobile, and is muted with playsinline.
+    * Disable autoplay when prefers-reduced-motion or Save-Data is on.
+* Responsive images (srcset), WebP/AVIF, explicit width/height, lazy-load below the fold, fetchpriority="high" on the hero poster
+* Fonts self-hosted, subset, font-display: swap, preload the one heading font
+* Code-split per route; no third-party script on the critical path (chat widgets load on interaction)
+On-page metadata (P0)
+* Unique title (≤ 60 characters) and meta description (~150 characters) per page, from the templates below
+* One H1 per page; H2/H3 follow the brief's outline
+* Unique OG image 1200×630 per page; og:type=article on guides and journal posts
+* <html lang="en">. No hreflang until a second language exists.
+Page type	Title template	Example
+Park hub	[Park] Tiger Safari: Zones, Hotels & Best Time | Tiger Safaris in India	Ranthambore Tiger Safari: Zones, Hotels & Best Time
+Safari booking	[Park] Safari Booking 2026–27: Zones, Jeep & Canter	Jim Corbett Safari Booking 2026–27: Zones, Jeep & Canter
+Hotels hub	Hotels Near [Park]: [N] Stays by Safari Gate	Hotels Near Ranthambore: 40 Stays by Safari Gate
+Hotel page	[Hotel], [Park] — [x] km from [Gate]	[Hotel name], Ranthambore — 2 km from Zone 6 Gate
+Guide	[Question answered] ([Year])	Best Time for Tiger Safari in India (2026)
+Security, trust & compliance (P1)
+* HTTPS + HSTS; security headers (CSP, X-Content-Type-Options, Referrer-Policy)
+* Privacy policy aligned with India's Digital Personal Data Protection Act; consent for marketing on the enquiry form
+* Company details, terms, cancellation policy linked in the footer
+Measurement & monitoring (P0)
+* Search Console (domain property) + Bing Webmaster verified; sitemaps submitted
+* GA4 events: enquiry_start, enquiry_submit, whatsapp_click, phone_click, each tagged with park and page type
+* Monthly crawl; weekly check of the GSC Pages report ("Crawled – not indexed", soft 404s)
+* Uptime monitoring and 404 logging
+10. Image SEO & the Google Discover playbook
+Original wildlife photography is the site's visual identity and its Discover ticket. Every article gets a large, well-cropped, credited hero image, and max-image-preview:large stays on sitewide (already live).
+Google's current Discover image guidance asks for images that are:
+* at least 1200 px wide
+* at least 300K pixels
+* 16:9
+* declared via og:image or schema
+* not logos or text graphics
+(Search Engine Land, Mar 2026)
+Image & technical requirements
+* Large images on every article and park page: hero at least 1200 px wide (export 1600 px), 16:9 crop with the subject inside the safe area. max-image-preview:large robots meta sitewide — required for large Discover cards.
+* Declare the preferred image: a per-page og:image plus primaryImageOfPage or image in the Article / WebPage schema. Never the logo, never a text-on-image graphic.
+* Descriptive, keyword-aware file names. For example: ranthambore-zone-3-tigress-padam-talao-lake.webp, not IMG_4021.jpg. Pattern: park-zone-subject-place.
+* Natural-language alt text on every image. Describe the image, don't list keywords. For example: "Tigress walking along the shore of Padam Talao lake in Ranthambore National Park at dawn". Decorative images get alt="".
+* Compress and serve modern formats:
+    * Squoosh / TinyPNG for one-offs; sharp in the build for everything else.
+    * WebP with AVIF where supported, plus a srcset of 480 / 960 / 1600 px.
+    * Lazy-load below the fold; never lazy-load the hero.
+* Image XML sitemap (/sitemap-images.xml) listing each page's key images. Use only <image:loc>: Google dropped the caption, title, geo and licence tags in 2022, so licensing goes in ImageObject schema instead (section 7).
+* Credit and licensing: a visible photographer credit on the page, and IPTC creator / copyright embedded in the file.
+* Strip GPS EXIF from every wildlife photo before upload. Publishing precise tiger locations is an anti-poaching red flag and can harm your standing with forest departments.
+* Original, high-resolution photography only for wildlife and lodges. Licensed lodge photos are acceptable with credit; no stock tigers.
+Editorial requirements (Discover)
+* Titles say what the story is.
+    * Good: "First tiger sightings as Ranthambore reopens for the 2026–27 season".
+    * Bad: "You won't believe what we saw…". Discover demotes clickbait and withheld-information titles.
+* Timely beats evergreen in the feed. Build a seasonal calendar:
+    * park reopening (October)
+    * winter fog safaris
+    * summer waterhole season
+    * monsoon closure and buffer-zone safaris
+    * officially announced cubs or relocations (only after the forest department confirms them)
+* Photo-led formats work best: sighting reports, "tigers of Zone X" profiles, photo essays, a naturalist's field diary, behind-the-scenes of a safari morning.
+* Every story has a named author (naturalist) and photographer, a published date, and an updated date when edited.
+* No AI-generated or composited wildlife images presented as real. Manipulated media breaches Discover's content policies and destroys trust. If AI art is ever used (illustrations, maps), label it clearly.
+* Cadence: 2–4 journal stories per month in season, 1–2 in the monsoon.
+* Provide an RSS/Atom feed for /journal/, linked in <head>, so Chrome's Follow feature and feed readers can subscribe.
+* Measure in the GSC Discover report. A story that earns Discover traffic gets a follow-up within 2 weeks.
+11–15. Master keyword sheet
+The sheet maps 70+ target keywords to one URL each. P0 rows are the launch build: the five park hubs, five safari-booking pages, five hotel hubs and the tours hub.
+* Secondary variants in brackets go on the same URL.
+* "Live – move URL" means the page exists today and is migrated per section 17.
+* Volumes and difficulty are not included yet (section 4, rule 9). Add them as two extra columns after a Keyword Planner / Ahrefs pull.
+11. Core — India-level & commercial head terms
+Keyword	Search intent	Content pillar	Priority	Proposed URL	Content required	Status
+tiger safari in india (tiger safari india, india tiger safari)	Commercial	Home	P0	/	5-park overview, comparison table, trust strip, enquiry	Live – rebuild content
+best tiger safari in india (best place to see tigers in india)	Commercial investigation	Guides	P0	/guides/best-tiger-safari-in-india/	Ranked comparison: sighting odds, season, access, stays, who each park suits	Not started
+tiger safari tour packages india (india tiger tour)	Transactional	Tours	P0	/tours/	Tour index with duration, parks, start city, "from" price if published	Live – move URL
+tiger reserves in india (national parks for tiger safari)	Informational	Parks	P1	/tiger-reserves/	Index of 5 parks + map + quick-facts table	Live – move URL
+best time for tiger safari in india	Informational	Guides	P1	/guides/best-time-for-tiger-safari-in-india/	Month × park table, closures, heat/fog notes	Live – move URL
+how to book tiger safari in india	Informational	Guides	P1	/guides/how-to-book-tiger-safari-india/	Official portals per park, documents, timelines, how we help	Live – move URL
+tiger safari cost in india	Informational	Guides	P1	/guides/tiger-safari-cost-india/	Cost components (permit, vehicle, guide, stay, transfer), Indian vs foreign national, sample budgets	Not started
+luxury tiger safari india (luxury jungle lodges india)	Commercial	Hotels	P1	/hotels/luxury-jungle-lodges/	Cross-park curated list, selection criteria	Live – move URL
+private tiger safari india	Commercial	Tours	P2	/tours/private-tiger-safari/	What "private" means (vehicle, naturalist), sample plans	Not started
+12. Rajasthan parks — Ranthambore & Sariska
+Keyword	Search intent	Content pillar	Priority	Proposed URL	Content required	Status
+ranthambore national park (ranthambore tiger safari, ranthambhore)	Commercial	Parks	P0	/ranthambore/	Park hub, 9 blocks (section 3)	Live – move URL
+ranthambore safari booking (ranthambore online safari booking, ranthambore jeep / canter booking)	Transactional	Parks	P0	/ranthambore/safari-booking/	Booking process, zones 1–10, jeep vs canter, timings, documents, enquiry	Not started
+hotels near ranthambore national park (resorts in ranthambore, ranthambore stay)	Commercial	Hotels	P0	/ranthambore/hotels/	Hotel hub, sortable by distance to gate and price band	Not started
+ranthambore tour package (from delhi, from jaipur, 2 / 3 days)	Transactional	Tours	P0	/ranthambore/tour-packages/	2-, 3- and 4-day plans, start-city variants	Not started
+luxury resorts in ranthambore	Commercial investigation	Hotels	P1	/ranthambore/hotels/luxury-resorts/	8–12 curated picks, comparison table	Not started
+budget hotels in ranthambore	Commercial investigation	Hotels	P1	/ranthambore/hotels/budget-hotels/	Curated picks, distance to gate	Not started
+ranthambore safari zones (best zone in ranthambore)	Informational	Parks	P1	/ranthambore/zones/	Zone table 1–10, map, core vs buffer, combination strategy	Live – move URL
+best time to visit ranthambore	Informational	Parks	P1	/ranthambore/best-time/	Month table, closure dates (dated), weather	Not started
+ranthambore safari price (ranthambore safari cost)	Informational	Parks	P1	/ranthambore/safari-cost/	Fee components dated + official source link; Indian vs foreign national	Not started
+how to reach ranthambore (sawai madhopur)	Informational	Parks	P1	/ranthambore/how-to-reach/	Rail, road, air from Delhi / Jaipur / Mumbai; transfer times	Not started
+ranthambore safari timings	Informational	Parks	P1	Section on /ranthambore/safari-booking/	Season-wise timing table (no separate URL)	Not started
+sariska tiger reserve (sariska national park)	Commercial	Parks	P0	/sariska/	Park hub, 9 blocks	Live – move URL
+sariska safari booking	Transactional	Parks	P0	/sariska/safari-booking/	Process, zones, timings, enquiry	Not started
+hotels near sariska (sariska resorts)	Commercial	Hotels	P0	/sariska/hotels/	Hotel hub	Not started
+sariska day trip from delhi / jaipur	Transactional	Tours	P1	/sariska/tour-packages/	Day trip + overnight plans	Not started
+best time to visit sariska	Informational	Parks	P1	/sariska/best-time/	Month table	Not started
+13. Uttarakhand — Jim Corbett
+Keyword	Search intent	Content pillar	Priority	Proposed URL	Content required	Status
+jim corbett national park (corbett tiger reserve, jim corbett tiger safari)	Commercial	Parks	P0	/jim-corbett/	Park hub, 9 blocks	Live – move URL
+jim corbett safari booking (corbett jeep safari booking, canter booking)	Transactional	Parks	P0	/jim-corbett/safari-booking/	Zone-wise booking, day vs overnight, documents, enquiry	Not started
+resorts in jim corbett (hotels in jim corbett, corbett stay)	Commercial	Hotels	P0	/jim-corbett/hotels/	Hotel hub by zone gate	Not started
+corbett weekend package from delhi	Transactional	Tours	P0	/tours/corbett-weekend-from-delhi/	2N/3D plan, drive or train, zone choice	Live – move URL
+jim corbett zones (dhikala, bijrani, jhirna, dhela, durga devi)	Informational	Parks	P1	/jim-corbett/zones/	Zone table, which zones open when, best for	Live – move URL
+dhikala zone booking (dhikala forest lodge)	Transactional / informational	Parks	P1	/jim-corbett/zones/dhikala/	How Dhikala stays and safaris work (official), alternatives, our plan	Not started
+luxury resorts in jim corbett	Commercial investigation	Hotels	P1	/jim-corbett/hotels/luxury-resorts/	Curated list	Not started
+riverside resorts in jim corbett (kosi river)	Commercial investigation	Hotels	P2	/jim-corbett/hotels/riverside-resorts/	Curated list	Not started
+best time to visit jim corbett	Informational	Parks	P1	/jim-corbett/best-time/	Zone opening calendar (dated), weather	Not started
+jim corbett safari price	Informational	Parks	P1	/jim-corbett/safari-cost/	Fee components dated + official source link	Not started
+how to reach jim corbett (ramnagar)	Informational	Parks	P1	/jim-corbett/how-to-reach/	Delhi drive, train to Ramnagar, transfer times	Not started
+14. Central India — Panna & Satpura
+Keyword	Search intent	Content pillar	Priority	Proposed URL	Content required	Status
+panna national park (panna tiger reserve)	Commercial	Parks	P0	/panna/	Park hub, 9 blocks; Khajuraho pairing	Live – move URL
+panna safari booking (+ ken river boat safari)	Transactional	Parks	P0	/panna/safari-booking/	Process, gates, timings, boat safari section, enquiry	Not started
+hotels near panna national park (resorts in panna, khajuraho stays)	Commercial	Hotels	P0	/panna/hotels/	Hotel hub incl. Khajuraho-side options	Not started
+khajuraho panna tour package	Transactional	Tours	P1	/panna/tour-packages/	Temples + tigers, 2–3 day plans	Not started
+best time to visit panna	Informational	Parks	P1	/panna/best-time/	Month table	Not started
+how to reach panna (from khajuraho)	Informational	Parks	P1	/panna/how-to-reach/	Air / rail via Khajuraho, transfer times	Not started
+satpura national park (satpura tiger reserve)	Commercial	Parks	P0	/satpura/	Park hub, 9 blocks; walking/boat USP	Live – move URL
+satpura safari booking (madhai, + walking / canoe safari)	Transactional	Parks	P0	/satpura/safari-booking/	Jeep, walking, boat/canoe options, timings, enquiry	Not started
+satpura resorts (hotels in madhai)	Commercial	Hotels	P0	/satpura/hotels/	Hotel hub	Not started
+best time to visit satpura	Informational	Parks	P1	/satpura/best-time/	Month table	Not started
+how to reach satpura (from bhopal)	Informational	Parks	P1	/satpura/how-to-reach/	Bhopal airport/rail, Pipariya, transfer times	Not started
+satpura pachmarhi tour	Transactional	Tours	P2	/satpura/tour-packages/	Satpura + Pachmarhi plans	Not started
+15. Supplementary clusters
+Keyword	Search intent	Content pillar	Priority	Proposed URL	Content required	Status
+jeep vs canter safari	Informational	Safaris	P1	/safaris/jeep-and-canter-safaris/	Comparison table: seats, privacy, zones, price band, who it suits	Live – move URL
+walking safari india	Commercial	Safaris	P1	/safaris/walking-safaris/	Where allowed (Satpura), rules, what to expect	Live – move URL
+boat safari tiger reserve	Commercial	Safaris	P2	/safaris/boat-safaris/	Satpura (Denwa), Panna (Ken)	Live – move URL
+tiger photography safari india (photography tours)	Commercial	Safaris	P1	/safaris/photography-safaris/	Best zones and light, gear, private vehicle, naturalist-photographers	Live – move URL
+family tiger safari india (safari with kids)	Commercial	Safaris	P1	/safaris/family-safaris/	Age rules, canter vs jeep, family lodges	Live – move URL
+ranthambore vs jim corbett	Commercial investigation	Guides	P1	/guides/ranthambore-vs-jim-corbett/	Side-by-side table, verdict by traveller type	Not started
+tiger safari for foreigners (foreign national safari booking)	Informational	Guides	P1	/guides/tiger-safari-for-foreigners/	Passport/ID rules, fee differences, visas, best route	Not started
+golden triangle with ranthambore (delhi agra jaipur tiger tour)	Transactional	Tours	P1	/tours/golden-triangle-tiger-tour/	Day-by-day plan, hotels used	Live – move URL
+rajasthan tiger tour (ranthambore and sariska tour)	Transactional	Tours	P1	/tours/rajasthan-tiger-trail/	Day-by-day plan	Live – move URL
+central india tiger tour (panna satpura tour)	Transactional	Tours	P1	/tours/central-india-tiger-circuit/	Day-by-day plan	Live – move URL
+india wildlife tour 10 days (3 park tiger tour)	Transactional	Tours	P2	/tours/3-park-tiger-tour/	International-facing long itinerary	Live – move URL
+ranthambore fort (timings, entry)	Informational	Parks	P2	/ranthambore/ranthambore-fort/	Visit guide, links to safari booking	Not started
+tiger safari packing list (what to wear on safari)	Informational	Guides	P2	/guides/tiger-safari-packing-list/	Season-wise checklist	Not started
+chances of seeing a tiger in india	Informational	Guides	P2	/guides/tiger-sighting-chances/	Honest odds by park and zone, how to improve them	Not started
+famous tigers of ranthambore	Informational / Discover	Journal	P2	/journal/tigers-of-ranthambore/	T-number profiles, dated, sourced	Not started
+tiger population in india (tiger census)	Informational / Discover	Journal	P2	/journal/tiger-census-india/	Latest official census figures, park-wise, refreshed on each census	Not started
+ranthambore reopening / first sightings of the season	News / Discover	Journal	P2	/journal/[season-slug]/	Seasonal story each October	Recurring
+16. How to use the keyword sheet — column legend
+Each row is one URL's brief. Pick rows top-down by Priority, write to the "Content required" spec, then update Status. A keyword never moves to a second URL without updating this sheet first.
+Column	What it holds	Allowed values	Example
+Keyword	The primary keyword (one per URL); secondary variants in brackets go on the same page as H2s / FAQ phrasing	Lowercase search phrase	ranthambore safari booking (ranthambore jeep booking)
+Search intent	Why the person is searching — decides the page format	Informational · Commercial · Commercial investigation · Transactional · News/Discover	Transactional
+Content pillar	Which of the 6 pillars (section 3) owns the page — decides breadcrumb, nav and hub links	Home · Parks · Safaris · Hotels · Tours · Guides · Journal	Parks
+Priority	Build order by business value × intent	P0 = launch build (money pages) · P1 = next 60–90 days (planning content) · P2 = ongoing (long-tail, editorial)	P0
+Proposed URL	Final, locked URL per section 17; lowercase, hyphenated, trailing slash	Path only	/ranthambore/safari-booking/
+Content required	The brief: blocks, tables and data the page must contain	Short spec	Booking process, zones 1–10, jeep vs canter, timings, documents, enquiry
+Status	Where the page stands	Not started · Brief ready · Writing · In review · Live · Live – move URL · Live – rebuild content · Recurring	Not started
+Workflow per row
+1. Validate: Google the keyword in an incognito India-region window. Note the format of the top 5 results (guide, list, booking page, OTA) and confirm the intent label.
+2. Brief: expand "Content required" into an H2 outline, the facts to verify (with official sources), photos needed and internal links (section 6).
+3. Write and review:
+    * The naturalist writes or reviews the page.
+    * The editor checks the title/meta template, schema and alt text.
+    * Status → In review.
+4. Publish: confirm the page is in the right sitemap, inspect it in GSC and request indexing. Status → Live.
+5. Track: after 28 days, add GSC clicks, impressions and average position. Re-prioritise.
+Columns to add after launch: Monthly volume (IN) · Monthly volume (global) · Keyword difficulty · Current position · Clicks (28 days) · Owner · Publish date · Last fact-check date. Export this doc's tables to Google Sheets (export → Google Docs, then copy tables) to sort and filter.
+17. URL structure reconciliation — action required
+Action: move 25 of the 30 live URLs to the locked structure in one deploy, with permanent (301) redirects. Do it now, while the site is two days old and barely indexed. In the same deploy:
+* update internal links, canonicals, schema @ids and the sitemap
+* keep the redirects permanently (minimum 12 months)
+Redirect map (current sitemap → final URL)
+Current URL	Final URL	Action
+/	/	Keep
+/destinations/	/tiger-reserves/	301
+/destinations/ranthambore-tiger-safari/	/ranthambore/	301
+/destinations/jim-corbett-tiger-safari/	/jim-corbett/	301
+/destinations/panna-tiger-safari/	/panna/	301
+/destinations/satpura-tiger-safari/	/satpura/	301
+/destinations/sariska-tiger-safari/	/sariska/	301
+/experiences/	/safaris/	301
+/experiences/jeep-and-canter-safaris/	/safaris/jeep-and-canter-safaris/	301
+/experiences/walking-safaris/	/safaris/walking-safaris/	301
+/experiences/boat-safaris/	/safaris/boat-safaris/	301
+/experiences/photography-safaris/	/safaris/photography-safaris/	301
+/experiences/family-safaris/	/safaris/family-safaris/	301
+/experiences/luxury-jungle-lodges/	/hotels/luxury-jungle-lodges/	301 (moves to Hotels pillar)
+/journeys/	/tours/	301
+/journeys/golden-triangle-tiger-tour/	/tours/golden-triangle-tiger-tour/	301
+/journeys/rajasthan-tiger-trail/	/tours/rajasthan-tiger-trail/	301
+/journeys/central-india-wild-circuit/	/tours/central-india-tiger-circuit/	301 (slug gains "tiger")
+/journeys/corbett-weekend-from-delhi/	/tours/corbett-weekend-from-delhi/	301
+/journeys/3-park-tiger-tour/	/tours/3-park-tiger-tour/	301
+/why-us/	/about/	301 (merge: one trust page with team, licences, why us)
+/impact/	/impact/	Keep
+/stories/	/journal/	301
+/stories/best-time-for-tiger-safari-india/	/guides/best-time-for-tiger-safari-in-india/	301
+/stories/ranthambore-zones-guide/	/ranthambore/zones/	301 (moves into park cluster)
+/stories/jim-corbett-zones-guide/	/jim-corbett/zones/	301 (moves into park cluster)
+/stories/how-to-book-tiger-safari-india/	/guides/how-to-book-tiger-safari-india/	301
+/plan-your-safari/	/plan-your-safari/	Keep
+/faq/	/faq/	Keep
+/contact/	/contact/	Keep
+URL rules (locked)
+1. Lowercase, hyphens, trailing slash, non-www, no file extensions, no dates in evergreen URLs.
+2. Park slugs: ranthambore, jim-corbett, panna, satpura, sariska. They never change.
+3. Reserved slugs under /[park]/hotels/: luxury-resorts, budget-hotels, riverside-resorts, page. A hotel slug is the hotel's own name and can never use a reserved word.
+4. A hotel's URL never changes after launch, even if it changes its name. If a hotel closes, 301 its page to the park's hotels hub.
+5. Journal URLs are evergreen slugs without dates. The date lives on the page and in the schema.
+Implementation (vercel.json, excerpt)
+{
+  "trailingSlash": true,
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.tigersafarisinindia.com" }], "destination": "https://tigersafarisinindia.com/:path*", "permanent": true },
+    { "source": "/destinations/ranthambore-tiger-safari/", "destination": "/ranthambore/", "permanent": true },
+    { "source": "/stories/ranthambore-zones-guide/", "destination": "/ranthambore/zones/", "permanent": true },
+    { "source": "/journeys/:slug/", "destination": "/tours/:slug/", "permanent": true },
+    { "source": "/experiences/:slug/", "destination": "/safaris/:slug/", "permanent": true }
+  ]
+}
+Vercel evaluates redirect rules in order, so put the specific rules before the wildcards:
+* luxury-jungle-lodges goes to Hotels.
+* central-india-wild-circuit is renamed.
+Verification:
+1. Crawl the old URL list in Screaming Frog (list mode). Every row must be one 301 to a 200 page.
+2. Then submit the new sitemap in GSC and Bing.
+18. EMD strategy & destination tools
+Decision: one domain, no exact-match microsites. Park-specific tools on the main site do the job EMD microsites used to do, and they build authority in one place instead of five.
+Why not EMDs
+* Google removed the ranking boost for low-quality exact-match domains back in 2012. Today an EMD ranks only on its own content and links.
+* Five park microsites would split links, reviews and brand searches across six domains. Each would start from zero authority.
+* Thin single-park sites with templated copy look like doorway pages, which is a spam-policy risk.
+* Booking trust is brand-driven. Travellers handing over a trip budget search the brand, not the park domain.
+Note: tigersafarisinindia.com is already a partial-match domain for "tiger safari in india". That helps relevance and brand recall.
+* The flip side: branded links will naturally carry keyword anchors. Keep the rest of your anchor profile diverse (URLs, "click here"-style naturals, naturalist names) so it doesn't look over-optimised (section 19).
+* Optional brand protection, not SEO: register obvious typo variants (for example tigersafariinindia.com) and 301 them to the main domain. Never put content on them.
+Destination tools — what replaces microsites
+Interactive utilities earn links, repeat visits and enquiries. Each tool lives on the page it serves, so its authority flows into that page. Every tool's explanatory text and default output must be in the static HTML, with the interactivity layered on top.
+Tool	Lives on	What it does	SEO / business value	Priority
+Safari cost estimator	/[park]/safari-cost/ + /guides/tiger-safari-cost-india/	Inputs park, nationality, vehicle, safaris, nights, hotel band → an estimate range with dated fee sources	Captures "safari price / cost" intent; ends with a prefilled enquiry	P1
+Zone picker	/[park]/zones/	Interests (tigers, birds, photography, family) + month → recommended zones and why	Rich, unique answer for "best zone in Ranthambore"; feeds the booking page	P1
+Hotel-to-gate map	/[park]/hotels/	Interactive map of every listed hotel vs safari gates; distance + drive time; filter by price band	Differentiates from OTAs; supports the hotel indexation gate data	P1
+Best-time calendar	/guides/best-time-for-tiger-safari-in-india/	Month × park grid: open/closed, weather, sighting conditions	Link magnet for travel bloggers; Discover-friendly visual	P1
+Trip planner → enquiry	/plan-your-safari/	Step form: parks, dates, group, budget, stay style → a structured enquiry	The conversion engine; better lead quality	P0
+Season sighting report	/journal/ (one per park per season)	Your own aggregated sightings by zone and month	Original data = citations from media and AI engines	P2
+Booking-window checker	/[park]/safari-booking/	"When can I book safaris for date X?" based on the published official window	Answers a high-anxiety question; only build once the rules are verified per park	P2
+Tool rules:
+* No separate thin /tools/ URLs.
+* Never present estimates as quotes.
+* Show an "as of" date and the official source for every fee or rule.
+* Track tool use as GA4 events, so tool engagement can be tied to enquiries.
+19. Backlink & off-page strategy
+Earn relevant, real-world links: lodges, travel media, photographers, tourism bodies, conservation partners. Ten such domains outweigh hundreds of directory links. Your original wildlife photography and your own sighting data are the two assets that make links earnable.
+#	Tactic	How	Cadence / target	Priority
+1	Foundational profiles	Google Business Profile, Bing Places, TripAdvisor operator listing, Instagram, YouTube, Facebook, Pinterest, LinkedIn, Justdial. Use the identical name, address, phone everywhere.	Once, month 1	P0
+2	Industry memberships	IATO, ATOAI, state tourism operator listings, Ministry of Tourism recognition if eligible. Each gives a trust signal plus a directory link.	Month 1–3	P0
+3	Lodge partner links	Ask partner hotels to link from their "safari booking" / "partners" pages. Offer them a reciprocal feature with real value: your guest reviews of their property.	5–10 lodges per quarter	P1
+4	Image link reclamation	Run your photos through Google Lens / TinEye monthly. Ask sites using them without credit to add a credited link.	Monthly	P1
+5	Photo licensing for credit	Offer a press/blogger image library free with attribution (credit + link). Licence terms go in ImageObject schema.	Ongoing	P1
+6	Digital PR with original data	Season sighting report, best-time calendar, "what a tiger safari really costs" study. Pitch Indian and international travel media and wildlife photography outlets.	2 campaigns per year (pre-season Sep, mid-season Feb)	P1
+7	Expert quotes	Naturalists answer journalist requests (Qwoted, Featured.com, Source of Sources) on wildlife, travel and photography topics	Weekly check	P2
+8	Conservation partnerships	Genuine support for a local NGO or community project, documented on /impact/. Partners often credit supporters.	1–2 partners	P2
+9	Creator trips	Hosted trips for photographers and travel creators, with clear disclosure; their links carry rel="sponsored"	2–4 per season	P2
+10	YouTube + community	Safari videos with descriptions linking to park pages; genuinely helpful answers on Reddit / Quora / TripAdvisor forums within each site's rules (no link-dropping)	Weekly	P2
+11	Unlinked mentions	Monitor brand mentions (Google Alerts, Ahrefs). Ask for a link where you're named.	Monthly	P2
+Anchor text guidance (heuristic, not a rule):
+* Mostly branded and naked-URL anchors.
+* Some generic anchors.
+* A small share of partial-match anchors ("Ranthambore safari guide").
+* Rare exact-match anchors.
+Because the brand name itself contains "tiger safaris in india", never ask for additional exact-match anchors.
+Never:
+* Buy links without rel="sponsored".
+* Use PBNs or expired-domain redirects.
+* Run link exchanges at scale.
+* Submit to bulk directories or pay guest-post farms.
+* Spin "tiger safari" articles onto low-quality blogs.
+These trigger Google's link-spam systems and can neutralise or penalise the domain.
+KPIs:
+* Referring domains from travel, wildlife and photography sites (quarterly target set after the month-1 baseline).
+* Branded search growth in GSC.
+* Share of AI-engine answers citing the site (monthly prompt set, section 8).
+* Enquiries attributed to referral traffic.
+20. sitemap.xml, llms.txt (and robots.txt)
+All three files are ready to drop into the project's public/ folder. Deploy them in the same release as the section 17 redirects.
+sitemap.xml
+The launch sitemap lists 42 URLs, validated as XML with no duplicates. It contains only P0 pages and migrated live pages, all on final URLs. "Not started" pages join the file as they go live.
+Rules:
+* Include only 200-status, indexable, self-canonical URLs.
+* <lastmod> = the real content-change date, generated at build time.
+* No changefreq / priority tags, which Google ignores.
+* Hotel pages are added only after they pass the indexation gate.
+* Once hotels pass ~100 URLs, split into a sitemap index: pages · parks · hotels · guides · images.
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Home & overview -->
+  <url><loc>https://tigersafarisinindia.com/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tiger-reserves/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Park hubs + P0 children -->
+  <url><loc>https://tigersafarisinindia.com/ranthambore/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/ranthambore/safari-booking/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/ranthambore/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/ranthambore/zones/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/ranthambore/tour-packages/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/jim-corbett/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/jim-corbett/safari-booking/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/jim-corbett/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/jim-corbett/zones/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/panna/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/panna/safari-booking/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/panna/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/satpura/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/satpura/safari-booking/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/satpura/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/sariska/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/sariska/safari-booking/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/sariska/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Safaris -->
+  <url><loc>https://tigersafarisinindia.com/safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/safaris/jeep-and-canter-safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/safaris/walking-safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/safaris/boat-safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/safaris/photography-safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/safaris/family-safaris/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Hotels (cross-park) -->
+  <url><loc>https://tigersafarisinindia.com/hotels/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/hotels/luxury-jungle-lodges/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Tours -->
+  <url><loc>https://tigersafarisinindia.com/tours/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tours/golden-triangle-tiger-tour/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tours/rajasthan-tiger-trail/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tours/central-india-tiger-circuit/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tours/corbett-weekend-from-delhi/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/tours/3-park-tiger-tour/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Guides -->
+  <url><loc>https://tigersafarisinindia.com/guides/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/guides/best-time-for-tiger-safari-in-india/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/guides/how-to-book-tiger-safari-india/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Conversion & trust -->
+  <url><loc>https://tigersafarisinindia.com/plan-your-safari/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/about/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/impact/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/faq/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://tigersafarisinindia.com/contact/</loc><lastmod>2026-10-17</lastmod></url>
+  <!-- Add /journal/ once the first stories are published; add /naturalists/[name]/ pages when live. -->
+</urlset>
+Image sitemap pattern (/sitemap-images.xml)
+Only <image:loc> is used. Licensing lives in ImageObject schema.
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://tigersafarisinindia.com/ranthambore/</loc>
+    <image:image><image:loc>https://tigersafarisinindia.com/images/ranthambore/ranthambore-zone-3-tigress-padam-talao-lake.webp</image:loc></image:image>
+  </url>
+</urlset>
+llms.txt
+The file follows the llmstxt.org format:
+1. An H1 with the site name
+2. A blockquote summary
+3. H2 sections of links with one-line notes
+Honest expectation: adoption is low, and major AI crawlers mostly read your HTML rather than this file. Treat it as a cheap, low-maintenance extra. The real AI-visibility lever is the static HTML from section 9.
+Keep it to final URLs. Update it whenever a P0/P1 page goes live. A stale llms.txt is worse than none.
+# Tiger Safaris in India
+
+> Tiger Safaris in India (tigersafarisinindia.com) is a private safari operator that plans tiger safaris and jungle stays in five Indian tiger reserves: Ranthambore, Jim Corbett, Panna, Satpura and Sariska. We arrange safari zone planning, permits on the traveller's behalf through the official forest department systems, naturalist guides, hotels and lodges near the park gates, and transfers. Bookings are enquiry-led: travellers send an enquiry and receive a tailored quote. We are not a government or forest department website.
+
+Key facts:
+- Coverage: Ranthambore (Rajasthan), Sariska (Rajasthan), Jim Corbett (Uttarakhand), Panna (Madhya Pradesh), Satpura (Madhya Pradesh)
+- Services: jeep and canter safari planning, walking and boat safaris where permitted, hotel and lodge selection by distance to safari gate, single-park and multi-park tours
+- Audience: Indian and international travellers
+- Fees, timings and zone rules change each season; park pages state an "as of" date and link the official source
+- Enquiries: https://tigersafarisinindia.com/plan-your-safari/
+
+## Parks
+- [Tiger reserves overview](https://tigersafarisinindia.com/tiger-reserves/): The five parks compared, with quick facts and map
+- [Ranthambore tiger safari](https://tigersafarisinindia.com/ranthambore/): Park guide, zones 1–10, best time, stays
+- [Jim Corbett tiger safari](https://tigersafarisinindia.com/jim-corbett/): Park guide, zones (Dhikala, Bijrani, Jhirna and others), best time, stays
+- [Panna tiger safari](https://tigersafarisinindia.com/panna/): Park guide, Ken river, Khajuraho pairing
+- [Satpura tiger safari](https://tigersafarisinindia.com/satpura/): Park guide, walking and boat safaris
+- [Sariska tiger safari](https://tigersafarisinindia.com/sariska/): Park guide, day trips from Delhi and Jaipur
+
+## Safari booking
+- [Ranthambore safari booking](https://tigersafarisinindia.com/ranthambore/safari-booking/): How booking works, zones, jeep vs canter, documents
+- [Jim Corbett safari booking](https://tigersafarisinindia.com/jim-corbett/safari-booking/): Zone-wise booking, day and overnight options
+- [Panna safari booking](https://tigersafarisinindia.com/panna/safari-booking/): Gates, timings, boat safari
+- [Satpura safari booking](https://tigersafarisinindia.com/satpura/safari-booking/): Jeep, walking and boat options
+- [Sariska safari booking](https://tigersafarisinindia.com/sariska/safari-booking/): Zones and timings
+
+## Hotels and lodges
+- [Hotels near Ranthambore](https://tigersafarisinindia.com/ranthambore/hotels/): Stays sorted by distance to safari gates
+- [Hotels in Jim Corbett](https://tigersafarisinindia.com/jim-corbett/hotels/): Stays by zone gate
+- [Hotels near Panna](https://tigersafarisinindia.com/panna/hotels/): Park-side and Khajuraho stays
+- [Hotels near Satpura](https://tigersafarisinindia.com/satpura/hotels/): Madhai-side stays
+- [Hotels near Sariska](https://tigersafarisinindia.com/sariska/hotels/): Park-side stays
+- [Luxury jungle lodges in India](https://tigersafarisinindia.com/hotels/luxury-jungle-lodges/): Curated cross-park list
+
+## Tours
+- [All tiger safari tours](https://tigersafarisinindia.com/tours/): Single- and multi-park itineraries
+- [Golden Triangle tiger tour](https://tigersafarisinindia.com/tours/golden-triangle-tiger-tour/): Delhi, Agra, Jaipur and Ranthambore
+- [Rajasthan tiger trail](https://tigersafarisinindia.com/tours/rajasthan-tiger-trail/): Ranthambore and Sariska
+- [Central India tiger circuit](https://tigersafarisinindia.com/tours/central-india-tiger-circuit/): Panna and Satpura
+- [Corbett weekend from Delhi](https://tigersafarisinindia.com/tours/corbett-weekend-from-delhi/): Short break from Delhi
+
+## Guides
+- [Best time for tiger safari in India](https://tigersafarisinindia.com/guides/best-time-for-tiger-safari-in-india/): Month-by-month across the five parks
+- [How to book a tiger safari in India](https://tigersafarisinindia.com/guides/how-to-book-tiger-safari-india/): Official portals, documents, timelines
+- [Ranthambore safari zones](https://tigersafarisinindia.com/ranthambore/zones/): Zone-by-zone guide
+- [Jim Corbett safari zones](https://tigersafarisinindia.com/jim-corbett/zones/): Zone-by-zone guide
+
+## About
+- [About us](https://tigersafarisinindia.com/about/): Team, naturalists, how we work
+- [Conservation impact](https://tigersafarisinindia.com/impact/): Our conservation and community work
+- [FAQ](https://tigersafarisinindia.com/faq/): Common questions on safaris, permits and stays
+- [Contact](https://tigersafarisinindia.com/contact/): Phone, WhatsApp, email, office address
+
+## Optional
+- [Safari types](https://tigersafarisinindia.com/safaris/): Jeep, canter, walking, boat, photography and family safaris
+robots.txt (recommended replacement)
+Changes from the live file:
+* Blocks the thank-you, search and filter/sort URLs.
+* Adds OpenAI's search crawler (OAI-SearchBot).
+* Removes the non-standard Agentmap: lines, which no crawler reads.
+# Tiger Safaris in India — https://tigersafarisinindia.com
+
+User-agent: *
+Allow: /
+Disallow: /thank-you/
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /search/
+
+# AI / assistant crawlers (retrieval and search). Remove a block to opt out.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://tigersafarisinindia.com/sitemap.xml
+Note: robots.txt blocks crawling, not indexing. The /thank-you/ page also needs noindex, and filter pages need noindex, follow (section 9).
+
+Open items before writing park pages:
+* Confirm each park's current season dates, safari timings, zone list and fee structure from the official forest department sources.
+* Confirm hotel distances with the properties.
+* Log each confirmed fact with its date in a hotel / park data sheet.below are the details 
+Park	Category	Fact	Value as found	Source	Source reliability	Date logged	Notes / what to confirm
+Ranthambore	Booking	Official booking route	Rajasthan Forest Dept page 'Online Booking/Permit for Ranthambore Tiger Reserve'; Tatkal via obms-tourist.rajasthan.gov.in	https://forest.rajasthan.gov.in (Online Safari/Zoo Ticket Booking)	Official (search snippet only)	2026-10-17	Portal itself blocks automated access; I could not open the live booking calendar.
+Ranthambore	Zones	Zone list	10 tourism zones (Zones 1-10). Zones 1-5 core, 6-10 buffer	ranthamborenationalpark.org.in; ranthamboretigerreserve.in	Third-party - NOT verified	2026-10-17	Several sites agree on 10 zones. Zone names per number not logged.
+Ranthambore	Season	Normal visiting season	October to June; monsoon (Jul-Sep) only buffer zones 6-10 may run	Rajasthan Tourism season as quoted by magickworld.in; ranthamborenationalpark.in	Third-party - NOT verified	2026-10-17	Check the booking calendar for exact reopening date for core zones.
+Ranthambore	Weekly closure	Day off	Zones 1-5 closed Wednesday; Zones 6-10 closed Tuesday (one reseller says canter zones 6/9/10 Tue)	ranthamborenationalpark.in	Third-party - NOT verified	2026-10-17	Single-source; confirm.
+Ranthambore	Timings	1 Oct - 31 Oct	06:30-10:00 and 14:30-18:00	ranthamborenationalpark.in; ranthamborenationalpark.org.in	Third-party - NOT verified	2026-10-17	
+Ranthambore	Timings	1 Nov - 31 Jan	07:00-10:30 and 14:00-17:30	ranthamborenationalpark.in	Third-party - NOT verified	2026-10-17	One other site shows 06:30-10:00 / 14:30-18:00 for Oct-Jan, so sources conflict.
+Ranthambore	Timings	1 Feb - 31 Mar	06:30-10:00 and 14:30-18:00	ranthamborenationalpark.in	Third-party - NOT verified	2026-10-17	
+Ranthambore	Timings	1 Apr - 15 May / 16 May - 30 Jun	06:00-09:30 and 15:00-18:30 / 06:00-09:30 and 15:30-19:00	ranthamborenationalpark.in	Third-party - NOT verified	2026-10-17	
+Ranthambore	Fees	Govt entry fee per person (order 1 Apr 2026 - 31 Mar 2028)	Critical tiger habitat: Rs 215 / Rs 1,575; buffer and other areas: Rs 165 / Rs 610 (incl. eco-development surcharge)	magickworld.in summarising Forest Dept fee order	Third-party - NOT verified	2026-10-17	Column labels not visible in what I could read; presumed Indian / foreign. This is the entry-fee component only, not the full safari price.
+Ranthambore	Fees	Reported 10% hike, effective 1 Apr 2026	Canter entry fee Indian Rs 986.63 (was Rs 888); foreigner Rs 2,399.63 (was Rs 2,176.10)	ETV Bharat, Patrika (news)	News report - NOT verified	2026-10-17	Does not match the order summary above. Resolve against the official fee order PDF.
+Ranthambore	Fees	All-in jeep/canter price	Varies by seller (roughly Rs 1,200-2,200 per seat Indian, canter/jeep)	Multiple resellers	Third-party - NOT verified	2026-10-17	Do not use. Take the figure shown at checkout on the official portal.
+Jim Corbett	Booking	Official portal and helpline	booking.corbettgov.org; +91 9759363344; 1800 309 6260	https://corbettgov.org/junglesafari.html	Official page read	2026-10-17	
+Jim Corbett	Zones	Tourism zones listed by Corbett Tiger Reserve	8: Bijrani (Amdanda gate), Jhirna (Dhela), Dhikala (Dhangari), Durgadevi, Dhela, Garjiya, Sonanadi (Vatanvasa), Pakhro	https://corbettgov.org/junglesafari.html	Official page read	2026-10-17	
+Jim Corbett	Season	Jhirna, Dhela	Throughout the year	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Season	Bijrani, Garjia	15 Oct - 30 Jun	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Season	Durgadevi, Sonanadi, Pakhro (day safari)	15 Nov - 15 Jun	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Season	Dhikala	Reopens 15 Nov. Canter 15 Nov - 15 Jun. No day-jeep permits; stay or canter only	https://corbettgov.org/junglesafari.html and /pricing.html	Official page read	2026-10-17	Night-stay season shown as 15 Nov - 14 Jun.
+Jim Corbett	Fees	Day jeep safari - permit per person	Indian Rs 3,380; foreigner Rs 6,680	https://corbettgov.org/pricing.html	Official page read	2026-10-17	Page says it covers per-person fee, vehicle permit, waste charge and portal fee. Whether the all-in total equals permit + vehicle + guide is not stated; confirm at checkout.
+Jim Corbett	Fees	Day jeep - vehicle charge	Jhirna, Dhela, Garjia, Durgadevi Rs 3,000; Bijrani Rs 2,700; Pakhro Rs 2,800; Sonanadi Rs 2,800-4,500	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Fees	Day jeep - guide charge	Rs 1,000 (all zones)	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Fees	Jeep rules and discounts	Max 6 people incl. 2 children under 12. Senior Rs 250 off pp, student 12-18 Rs 375 off pp. OCI/SAARC at Indian rates; any foreigner makes whole permit foreign rate	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Fees	Dhikala canter (16 seats)	Indian Rs 1,500 + 18% GST per seat; foreigner Rs 3,000 + 18% GST. Max 4 seats per booking	https://corbettgov.org/pricing.html	Official page read	2026-10-17	Waste-management and portal fees extra.
+Jim Corbett	Fees	Night stay (2 pax, 1 room)	Room Rs 3,500-5,050 Indian / Rs 10,450 foreigner; vehicle+driver Rs 5,750-7,750 by zone; guide Rs 1,000	https://corbettgov.org/pricing.html	Official page read	2026-10-17	
+Jim Corbett	Timings	Jeep safari	Morning approx 06:30-09:30, afternoon approx 15:00-18:00 (summer starts earlier)	corbett-national-park.com; naturessprouts.com	Third-party - NOT verified	2026-10-17	Official pages I read give no slot times. Confirm on the permit or helpline.
+Jim Corbett	Timings	Dhikala canter	Morning 06:00-11:30; afternoon 12:00-17:30	corbett-national-park.com	Third-party - NOT verified	2026-10-17	
+Panna	Booking	Official portal	forest.mponline.gov.in (MP Forest Dept). Resellers: pannatigersafari.com etc. are not official	boutindia.com guide naming the MP portal; mptourism.com for Kanha	Third-party - NOT verified	2026-10-17	I could not open the MP portal itself. Booking opening about 120 days ahead is a blog claim.
+Panna	Zones	Gates and zones	Core: Madla, Hinauta, Akola (core). Buffer: Akola, Jhinna (Jinna)	mpforesttourism.com; pannatigersafari.com (several agree)	Third-party - NOT verified	2026-10-17	
+Panna	Season	Core zones	Open about 15/16 Oct to 30 Jun; closed 1 Jul - 30 Sep	mpforesttourism.com; mpforest.co.in; india-a2z.com	Third-party - NOT verified	2026-10-17	Sources differ between 1 Oct and mid-Oct reopening. Confirm.
+Panna	Weekly closure	Core zones	Closed Wednesday evening	mpforesttourism.com; mpforest.co.in	Third-party - NOT verified	2026-10-17	
+Panna	Timings	Winter / summer	Winter 06:30-11:30 and 15:00-17:45; summer 05:30-11:30 and 15:00-18:30	mpforesttourism.com	Third-party - NOT verified	2026-10-17	Other sites show 06:00-10:00 and 14:30-18:00. Conflict; confirm.
+Panna	Fees	Full jeep (up to 6)	Core about Rs 8,000-8,500 Indian; buffer about Rs 6,500-7,000 Indian (resellers)	mpforesttourism.com; pannatigersafari.com	Third-party - NOT verified	2026-10-17	Reseller prices vary by site and weekend/weekday. Not official.
+Panna	Fees	MP gate fees for vehicle and guide	Rs 3,500 vehicle + Rs 1,000 guide per safari (2025-26 season) as stated by one blog	travelertalez.com	Third-party - NOT verified	2026-10-17	Blog claim, not from MP Forest Dept. Verify.
+Satpura	Booking	Official sites	satpuratigerreserve.org (links to booking); forest.mponline.gov.in; office 07574-254394; ddsatnp.hbd@mp.gov.in	https://www.satpuratigerreserve.org/	Official (search snippet only)	2026-10-17	Contact details are from the official site snippet. Booking portal not opened.
+Satpura	Zones	Gates	Core: Madhai, Churna (Bheemkund gate), Panarpani (Pachmarhi), Mallupura (via Madhai). Buffer: Jamanidev, Parsapani (Pathai) and others	explorewithecokats.com; madhya-pradesh-tourism.com; bigcatsindia.com	Third-party - NOT verified	2026-10-17	Sources disagree on which are core vs buffer. Confirm.
+Satpura	Season	Tourism season	About 16 Oct - 30 Jun; core closed in monsoon (one source: 16 Jun - 30 Sep)	madhya-pradesh-tourism.com; boutindia.com	Third-party - NOT verified	2026-10-17	Closing date conflict (30 Jun vs 16 Jun).
+Satpura	Timings	Jeep safari	Winter morning 06:30-11:00, summer morning 05:30-11:00; evening approx 14:30-18:30. Churna full-day option exists	naturessprouts.com; explorewithecokats.com	Third-party - NOT verified	2026-10-17	Not from the forest department.
+Satpura	Fees	One traveller's 2025-26 breakdown (Indian, weekday)	Permit Rs 800 (Rs 1,000 weekend); shared vehicle+guide Rs 1,000; boat transfer Rs 100; full vehicle+guide Rs 3,675	travelertalez.com	Third-party - NOT verified	2026-10-17	Single blog, personal receipt. Treat as indicative only.
+Sariska	Booking	Official portals	fmdss.forest.rajasthan.gov.in (advance); obms-tourist.rajasthan.gov.in (Tatkal). Help desk 0141-2921602 / 2921311	https://fmdss.forest.rajasthan.gov.in/	Official (search snippet only)	2026-10-17	The FMDSS snippet looks stale (Tatkal notice dated Sep 2024). Confirm which portal is live now.
+Sariska	Zones	Gates and zones	Sariska Gate (core Zones 1-3), Tehla Gate (core), Baraliwari (buffer), Bala Quila (buffer); one site also lists Andheri gate	sariskasafari.in; sariskanationalpark.co.in; sariskatigerreserve.co.in	Third-party - NOT verified	2026-10-17	Gate/zone numbering differs between sites.
+Sariska	Season	Reserve access	October to June; closed 1 Jul - 30 Sep	veenaworld.com	Third-party - NOT verified	2026-10-17	
+Sariska	Weekly closure	Day off	Wednesday	sariskasafari.in	Third-party - NOT verified	2026-10-17	Single-source.
+Sariska	Timings	1 Oct-31 Oct	06:30-10:00 and 14:30-18:00	sariskasafarionlinebooking.com; mpforest.co.in	Third-party - NOT verified	2026-10-17	
+Sariska	Timings	1 Nov-31 Jan	07:00-10:30 and 14:00-17:30	sariskasafarionlinebooking.com	Third-party - NOT verified	2026-10-17	
+Sariska	Timings	1 Feb-31 Mar / 1 Apr-30 Jun	06:30-10:00 and 14:30-18:00 / 06:00-09:30 and 15:00-19:00	sariskasafarionlinebooking.com	Third-party - NOT verified	2026-10-17	Mirrors the Ranthambore pattern; may be copied.
+Sariska	Fees	Fee revision	10% entry-fee hike took effect 1 Apr 2026 (charged from 2 Apr)	ETV Bharat (news)	News report - NOT verified	2026-10-17	No rupee figures for Sariska in what I read.
+Sariska	Fees	All-in prices	Canter about Rs 1,010-1,400 pp; jeep about Rs 1,440-1,800 pp (resellers disagree)	sariskasafari.in; sariskasafarionlinebooking.com	Third-party - NOT verified	2026-10-17	Do not use for budgeting without the official figure.
+
